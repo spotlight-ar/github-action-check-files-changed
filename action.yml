@@ -8,7 +8,7 @@ inputs:
     description: 'Paths to check if files have changed'
     required: true
   version:
-    description: 'Version to compare with'
+    description: 'Version to compare with. Pass "none" to simply use previous commit'
     required: false
 outputs:
   changes:

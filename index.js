@@ -19,9 +19,9 @@ const fetchRepo = () => {
 }
 
 const getRef = (version) => {
-  const gitFetchCommand = version
+  const gitFetchCommand = version && version !== 'none'
     ? `git show-ref --hash --tags ${version}`
-    : 'git rev-list --tags --max-count=1';
+    : `git rev-list ${ version === 'none' ? 'HEAD^1' : '--tags' } --max-count=1`;
 
   return new Promise((resolve, reject) => {
     exec(gitFetchCommand, (error, stdout, stderr) => {
@@ -48,11 +48,17 @@ const getDiffs = (ref, paths) => {
       version,
     } = getInputs();
 
-    await fetchRepo();
+    console.log('Fetching ref...');
 
     const ref = await getRef(version);
 
+    console.log('Ref:', ref);
+
+    console.log('Checking files changed...');
+
     const filesChanged = await getDiffs(ref, paths);
+
+    console.log('Files Changed:', filesChanged);
 
     const output = filesChanged ? 'True' : 'False';
     core.setOutput('change', output);
