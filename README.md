@@ -1,46 +1,27 @@
-# github-action-slack-notify-deploy
+# github-action-check-files-changed
 
-Github action to send a Slack message during a deploy. Specifies the product being deployed, what version is being deployed, the environment being deployed to, and the status of the deployment.
+Github action to check whether certain files have changed between versions. Can be use to conditionally run steps/ jobs only if needed. Example being migrations only running when there are changes in the migrations folder.
 
 ## Usage
 
 ```
-uses: spotlight-ar/github-action-slack-notify-deploy@v1.0
+uses: spotlight-ar/github-action-check-files-changed@v1.0
 with:
-  channel: 123456
-  status: STARTED
-  product: Client
-  version: v1.0.0
-  environment: Production
-  environment_url: https://production.example.com
-env:
-  SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+  path: 'src/**.*'
+  version: 'v1.5.0'
 ```
-
-<img src="docs/example.png" alt="Screenshot of message">
 
 ## Variables
 
 ### Inputs:
 
-| Variable        | Description                                       | Required? |
-| --------------- | ------------------------------------------------- | --------- |
-| channel_id      | The Slack channel ID to send the message to.      | true      |
-| product         | The name of the product being deployed.           | true      |
-| version         | The version of the product being deployed.        | true      |
-| environment     | The environment the product is being deployed to. | true      |
-| environment_url | The URL for the environment being deployed to.    | false     |
-| status          | The status to list in the update.                 | true      |
-| message_id      | The ID of the existing Slack message to update.   | false     |
+| Variable | Description                                       | Required? |
+| -------- | ------------------------------------------------- | --------- |
+| path     | The file path to compare to                       | true      |
+| version  | The version to compare to (defaults to previous). | false     |
 
 ### Outputs:
 
-| Variable   | Description                                                |
-| ---------- | ---------------------------------------------------------- |
-| message_id | The unique timestamp identifier of the Slack message sent. |
-
-### Secrets:
-
-| Variable        | Description                                |
-| --------------- | ------------------------------------------ |
-| SLACK_BOT_TOKEN | The Slackbot token to use for this actions |
+| Variable | Description                                     |
+| -------- | ----------------------------------------------- |
+| changes  | 'True' if there are changes, 'False' otherwise. |
