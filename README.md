@@ -7,7 +7,7 @@ Github action to check whether certain files have changed between versions. Can 
 ```
 uses: spotlight-ar/github-action-check-files-changed@v1.0
 with:
-  path: 'src/**.*'
+  paths: 'src/**.*'
   version: 'v1.5.0'
 ```
 
@@ -17,7 +17,7 @@ with:
 
 | Variable | Description                                       | Required? |
 | -------- | ------------------------------------------------- | --------- |
-| path     | The file path to compare to                       | true      |
+| paths    | The file path to compare to                       | true      |
 | version  | The version to compare to (defaults to previous). | false     |
 
 ### Outputs:
